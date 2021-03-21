@@ -23,13 +23,16 @@
 <script>
 import axios from 'axios';
 
+const apiUrl = process.env.VUE_APP_API_URL;
+
 export default {
   name: 'LandingPage',
   props: {
     msg: String,
   },
   mounted() {
-    axios.get('/api/test')
+    console.log(apiUrl);
+    axios.get(`${apiUrl}/test`)
       .then((result) => console.log(result))
       .catch(console.error);
   },
@@ -38,10 +41,11 @@ export default {
       const email = document.getElementById('email-input').value;
       const password = document.getElementById('password-input').value;
 
-      console.log(email);
-      console.log(password);
+      // console.log(email);
+      // console.log(password);
+      // console.log(apiUrl);
 
-      axios.post('/api/', {
+      axios.post(`${apiUrl}`, {
         email,
         password,
       })
