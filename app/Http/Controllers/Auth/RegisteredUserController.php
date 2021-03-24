@@ -4,26 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
+use App\Models\UserInfo;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
-class RegisteredUserController extends Controller
-{
-    /**
-     * Display the registration view.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {
-        return Inertia::render('Auth/Register');
-        // return "<b>test</b>";
-    }
+class RegisteredUserController extends Controller {
 
     /**
      * Handle an incoming registration request.
@@ -33,8 +21,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -42,23 +29,29 @@ class RegisteredUserController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-        Auth::login($user = User::create([
+        DB::beginTransaction();
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]));
+        ]);
+        $userInfo = $this::createUserInfo($user);
+        $userInfo->save();
+        DB::commit();
 
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        // ]);
-
-        // $token = $user->createToken('auth_token')->plainTextToken;
+        Auth::login($user);
 
         event(new Registered($user));
 
-        // return redirect(RouteServiceProvider::HOME);
         return response()->json();
+    }
+
+    public static function createUserInfo($user) {
+        $userInfo = UserInfo::make([
+            'user_id' => $user->id,
+            'display_name' => $user->name,
+        ]);
+        $userInfo->setRandomDefaultAvatar();
+        return $userInfo;
     }
 }

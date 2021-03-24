@@ -1,7 +1,7 @@
 # For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-    laravel.test:
+    binderpad.laravel:
         build:
             context: ./vendor/laravel/sail/runtimes/8.0
             dockerfile: Dockerfile
@@ -23,6 +23,7 @@ services:
             - selenium
     mysql:
         image: 'mysql:8.0'
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:

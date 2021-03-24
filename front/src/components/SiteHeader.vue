@@ -1,23 +1,29 @@
 <template>
   <div class="site-header">
-    <img class="site-logo" src="../assets/logo_white.png"/>
+    <img class="site-logo" src="../assets/logo_white.png" @click="toHomePage()"/>
+    <div class="header-nav-box" @click="toCreatePage()">
+      <img class="nav-icon" src="../assets/icons/add.png"/>
+      <div class="nav-title">
+        Create
+      </div>
+    </div>
     <div class="avatar-box">
       <div class="avatar-icon" @click="toggleMenu()">
-        <img class="avatar-small" src="../assets/default_avatar.png"/>
+        <img class="avatar-small" :src="`${getDefaultAvatarPath}/${userInfo.avatar}`"/>
       </div>
     </div>
     <p class="clear-both"></p>
     <div :class="{'menu-wrapper': true, 'show': isMenuOpen, 'hidden': !isMenuOpen}">
       <div @click="toggleMenu()" class="menu-toggle"></div>
       <div class="menu-arrow"></div>
-      <div class="menu-box" @click="toggleMenuItem()">
-        <div class="menu-item">
+      <div class="menu-box">
+        <div class="menu-item" @click="toProfilePage()">
           Profile
         </div>
-        <div class="menu-item">
+        <div class="menu-item" @click="toSettingsPage()">
           Settings
         </div>
-        <div class="menu-item last-item" @click="performSignOut()">
+        <div class="menu-item" @click="performSignOut()">
           Log Out
         </div>
       </div>
@@ -37,11 +43,41 @@ export default {
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
-    toggleMenuItem() {
-      console.log('test');
-    },
     async performSignOut() {
       await this.$store.dispatch('auth/signOut');
+      this.toHomePage();
+    },
+    toHomePage() {
+      this.$router.push({
+        name: 'Home',
+      });
+    },
+    toProfilePage() {
+      this.$router.push({
+        name: 'Profile',
+      });
+    },
+    toSettingsPage() {
+      if (this.$route.path !== '/settings/profile') {
+        this.$router.push({
+          name: 'ProfileSettings',
+        });
+      }
+    },
+    toCreatePage() {
+      if (this.$route.path !== '/create/post') {
+        this.$router.push({
+          name: 'PostCreation',
+        });
+      }
+    },
+  },
+  computed: {
+    getDefaultAvatarPath() {
+      return `${process.env.VUE_APP_PUBLIC_URL}/default_avatar`;
+    },
+    userInfo() {
+      return this.$store.getters['auth/user'];
     },
   },
 };
@@ -63,6 +99,34 @@ export default {
 .site-logo {
   float: left;
   padding-left: 10px;
+  cursor: pointer;
+}
+.header-nav-box {
+  height: 50px;
+  width: fit-content;
+  float: left;
+  margin-left: 20px;
+  line-height: 30px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #FFF;
+}
+.header-nav-box:hover {
+  background-color: #FFF;
+  color: #33b4d7;
+}
+.nav-icon {
+  height: 30px;
+}
+.nav-title {
+  height: 30px;
+  line-height: 30px;
+  font-weight: bold;
+  padding-left: 5px;
 }
 .avatar-box {
   height: 50px;
@@ -75,7 +139,7 @@ export default {
   width: 36px;
   height: 36px;
   border-radius: 40px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #fff;
   overflow: hidden;
   box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%),
     0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
@@ -108,14 +172,14 @@ export default {
   top: 55px;
   right: 10px;
   width: 200px;
-  background-color: #e2e8f0;
+  background-color: #fff;
   box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%),
     0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
   z-index: 10000;
 }
 .menu-arrow {
-  border: 10px solid #e2e8f0;
-  border-color: transparent transparent #e2e8f0 transparent;
+  border: 10px solid #fff;
+  border-color: transparent transparent #fff transparent;
   position: absolute;
   top: 35px;
   right: 20px;
@@ -134,7 +198,7 @@ export default {
   background-color: #33b4d7;
   color: #fff;
 }
-.last-item {
+.menu-item:last-child {
   border-top: 1px solid #b3b3b3;
 }
 .hidden {

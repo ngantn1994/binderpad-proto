@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Models\UserInfo;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,44 +16,9 @@ use Illuminate\Support\Facades\Log;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {   
-        Log::debug(1);
-        return Inertia::render('Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
-        ]);
-    }
-
-    // /**
-    //  * Handle an incoming authentication request.
-    //  *
-    //  * @param  \App\Http\Requests\Auth\LoginRequest  $request
-    //  * @return \Illuminate\Http\RedirectResponse
-    //  */
-    // public function store(LoginRequest $request)
-    // {
-    //     // $request->authenticate();
-    //     Log::debug(2);
-    //     $request->session()->regenerate();
-
-    //     // return redirect()->intended(RouteServiceProvider::HOME);
-    //     return "ok";
-    // }
-
-
-    /**
      * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
@@ -72,6 +37,26 @@ class AuthenticatedSessionController extends Controller
         }
         Log::debug("wrong pass");
         return "fail";
+    }
+
+    public function getUserInfo(Request $request) {
+        $user = Auth::user();
+        if ($user) {
+            Log::debug(1);
+            $userInfo = UserInfo::where('user_id', $user->id)->first();
+            Log::info("user info");
+            Log::info($user->id);
+            if ($userInfo) {
+                Log::debug(2);
+                Log::debug($userInfo);
+                Log::debug($userInfo->toJson());
+                return $userInfo->toJson();
+            } else {
+                Log::debug("shit happened");
+            }
+        }
+
+        return response()->json();
     }
 
     /**

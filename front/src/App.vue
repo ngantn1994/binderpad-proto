@@ -16,6 +16,15 @@ export default {
   async beforeCreate() {
     await this.$store.dispatch('auth/checkAuthentication');
     this.isAuthenticationChecked = true;
+
+    const authenticationStatus = this.$store.getters['auth/authenticated'];
+    if (!authenticationStatus) {
+      if (this.$route.path !== '/') {
+        this.$router.push({
+          name: 'Home',
+        });
+      }
+    }
   },
   data() {
     return {
@@ -105,5 +114,16 @@ export default {
 }
 .freepik {
   display: none;
+}
+.page-container {
+  width: 100vw;
+  min-height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.relative-content-box {
+  width: 100%;
+  padding-top: 70px;
 }
 </style>

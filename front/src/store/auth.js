@@ -56,5 +56,10 @@ export default {
         commit('SET_USER', null);
       });
     },
+    async submitProfileUpdate({ dispatch }, userInfo) {
+      await axios.post('/api/profileUpdate', userInfo);
+
+      return dispatch('updateAuthentication');
+    },
   },
 };

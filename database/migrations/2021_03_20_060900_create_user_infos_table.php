@@ -15,12 +15,12 @@ class CreateUserInfosTable extends Migration
     {
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->integer('flag')->default(0);
-            $table->rememberToken();
+            $table->integer('user_id')->unique();
+            $table->integer('account_flag')->default(0);
+            $table->integer('info_flag')->default(0);
+            $table->string('avatar');
+            $table->string('display_name');
+            $table->text('desc')->nullable();
             $table->timestamps();
         });
     }
