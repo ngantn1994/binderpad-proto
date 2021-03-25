@@ -25,12 +25,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
         // $request->authenticate();
-        Log::debug(2);
         // $request->session()->regenerate();
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                Log::debug("puehpueh");
+                Auth::login($user);
+                return "ok";
+            }
+        } else {
+            $user = User::where('name', $request->email)->first();
+            if (Hash::check($request->password, $user->password)) {
                 Auth::login($user);
                 return "ok";
             }
@@ -42,14 +46,8 @@ class AuthenticatedSessionController extends Controller
     public function getUserInfo(Request $request) {
         $user = Auth::user();
         if ($user) {
-            Log::debug(1);
             $userInfo = UserInfo::where('user_id', $user->id)->first();
-            Log::info("user info");
-            Log::info($user->id);
             if ($userInfo) {
-                Log::debug(2);
-                Log::debug($userInfo);
-                Log::debug($userInfo->toJson());
                 return $userInfo->toJson();
             } else {
                 Log::debug("shit happened");

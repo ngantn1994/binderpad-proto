@@ -31,6 +31,17 @@ export default {
   components: {
     SiteHeader,
   },
+  methods: {
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
+  },
+  mounted() {
+    this.setLoadingStatus(false);
+  },
 };
 </script>
 
@@ -39,7 +50,7 @@ export default {
   background-color: #e2e8f0;
 }
 .create-wrapper {
-  width: 70%;
+  width: 720px;
   margin: auto;
 }
 .create-card {

@@ -30,4 +30,13 @@ class UserInfoController extends Controller
 
         return response()->json();
     }
+
+    public function getCurrentUser(Request $request) {
+        $userInfo = UserInfo::where('user_id', Auth::user()->id)->first();
+        $userInfo->desc = nl2br($userInfo->desc);
+
+        return response()->json([
+            'userInfo' => $userInfo
+        ]);
+    }
 }

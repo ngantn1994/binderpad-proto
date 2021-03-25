@@ -10,13 +10,14 @@
       <div class="login-wrapper">
         <div class="form-box"
           :class="{ 'current-content': !isRegister, 'hiding-content': isRegister }">
-          <input type="email" id="email-input" class="login-input" placeholder="Email"/>
+          <input type="email" id="email-input" class="login-input" placeholder="Username or Email"/>
           <input type="password" id="password-input" class="login-input" placeholder="Password"/>
           <input type="submit" id="submit-btn" class="login-btn" value="Log In"
             @click="performLogin()"/>
           <div class="separated-line"></div>
           <input type="submit" id="register-btn" class="login-btn" value="Create new account"
             @click="openRegister()"/>
+          <div v-if="errorMsg" class="error-msg">{{errorMsg}}</div>
         </div>
         <div class="form-box"
           :class="{ 'current-content': isRegister, 'hiding-content': !isRegister }">
@@ -32,6 +33,7 @@
           <div class="separated-line"></div>
           <input type="submit" id="register-btn" class="login-btn" value="Back to login"
             @click="openLogin()"/>
+          <div v-show="errorMsg.length > 0" class="error-msg">{{errorMsg}}</div>
         </div>
       </div>
     </div>
@@ -39,28 +41,27 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapActions } from 'vuex';
-
-const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: 'LandingPage',
   props: {
     msg: String,
   },
-  mounted() {
-    console.log(apiUrl);
-    axios.get('/api/test')
-      .then((result) => console.log(result))
-      .catch(console.error);
-  },
   methods: {
     ...mapActions({
       signIn: 'auth/signIn',
       register: 'auth/register',
     }),
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
     async performLogin() {
+      this.setLoadingStatus(true);
+      this.errorMsg = '';
       const email = document.getElementById('email-input').value;
       const password = document.getElementById('password-input').value;
 
@@ -68,14 +69,38 @@ export default {
         email,
         password,
       };
-      await this.signIn(credentials);
+      try {
+        const response = await this.signIn(credentials);
+
+        if (response.data === 'fail') {
+          this.errorMsg = 'Can\'t login with the inputted value.';
+          this.setLoadingStatus(false);
+        }
+      } catch (err) {
+        this.errorMsg = 'Can\'t login with the inputted value.';
+        this.setLoadingStatus(false);
+      }
     },
     async performRegister() {
+      this.setLoadingStatus(true);
+      this.errorMsg = '';
       const name = document.getElementById('username-register-input').value;
       const email = document.getElementById('email-register-input').value;
       const password = document.getElementById('password-register-input').value;
       /* eslint camelcase: 0 */
       const password_confirmation = document.getElementById('repassword-register-input').value;
+
+      if (password !== password_confirmation) {
+        this.errorMsg = 'Password does not match.';
+        this.setLoadingStatus(false);
+        return;
+      }
+
+      if (password.length < 8) {
+        this.errorMsg = 'Password must have at least 8 characters.';
+        this.setLoadingStatus(false);
+        return;
+      }
 
       const credentials = {
         name,
@@ -83,18 +108,30 @@ export default {
         password,
         password_confirmation,
       };
-      await this.register(credentials);
+      try {
+        const response = await this.register(credentials);
+        if (response.data === 'fail') {
+          this.errorMsg = 'Can\'t register. Please try different username or email.';
+          this.setLoadingStatus(false);
+        }
+      } catch (err) {
+        this.errorMsg = 'Can\'t register. Please try different username or email.';
+        this.setLoadingStatus(false);
+      }
     },
     openRegister() {
+      this.errorMsg = '';
       this.isRegister = true;
     },
     openLogin() {
+      this.errorMsg = '';
       this.isRegister = false;
     },
   },
   data() {
     return {
       isRegister: false,
+      errorMsg: '',
     };
   },
 };
@@ -196,5 +233,12 @@ export default {
   border-bottom: 2px solid #dddfe2;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+.error-msg {
+  width: 100%;
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
 }
 </style>

@@ -7,7 +7,7 @@
         Create
       </div>
     </div>
-    <div class="avatar-box">
+    <div v-if="userInfo" class="avatar-box">
       <div class="avatar-icon" @click="toggleMenu()">
         <img class="avatar-small" :src="`${getDefaultAvatarPath}/${userInfo.avatar}`"/>
       </div>
@@ -40,25 +40,40 @@ export default {
     };
   },
   methods: {
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
     async performSignOut() {
+      this.setLoadingStatus(true);
       await this.$store.dispatch('auth/signOut');
+      this.setLoadingStatus(false);
       this.toHomePage();
     },
     toHomePage() {
-      this.$router.push({
-        name: 'Home',
-      });
+      if (this.$route.path !== '/') {
+        this.setLoadingStatus(true);
+        this.$router.push({
+          name: 'Home',
+        });
+      }
     },
     toProfilePage() {
-      this.$router.push({
-        name: 'Profile',
-      });
+      if (this.$route.path !== '/profile') {
+        this.setLoadingStatus(true);
+        this.$router.push({
+          name: 'Profile',
+        });
+      }
     },
     toSettingsPage() {
       if (this.$route.path !== '/settings/profile') {
+        this.setLoadingStatus(true);
         this.$router.push({
           name: 'ProfileSettings',
         });
@@ -66,6 +81,7 @@ export default {
     },
     toCreatePage() {
       if (this.$route.path !== '/create/post') {
+        this.setLoadingStatus(true);
         this.$router.push({
           name: 'PostCreation',
         });

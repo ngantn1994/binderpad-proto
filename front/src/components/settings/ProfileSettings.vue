@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-settings">
+  <div v-if="userInfo" class="profile-settings">
     <div class="form-item-box">
       <div class="form-item-label">
         Display Name
@@ -60,6 +60,12 @@ export default {
     ...mapActions({
       submitProfileUpdate: 'auth/submitProfileUpdate',
     }),
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
     getDefaultAvatarUrl(filename) {
       return `${process.env.VUE_APP_PUBLIC_URL}/default_avatar/${filename}`;
     },
@@ -67,17 +73,27 @@ export default {
       this.chosenAvatar = avatar;
     },
     async updateProfile() {
+      this.setLoadingStatus(true);
       /* eslint camelcase: 0 */
       const display_name = document.getElementById('profile-display-name').innerText;
       const desc = document.getElementById('profile-desc').innerText;
-      const avatar = this.chosenAvatar;
+      const avatar = this.chosenAvatar ? this.chosenAvatar : this.userInfo.avatar;
 
       const userInfo = {
         display_name,
         desc,
         avatar,
       };
-      await this.submitProfileUpdate(userInfo);
+      try {
+        await this.submitProfileUpdate(userInfo);
+        this.$router.push({
+          name: 'Profile',
+        });
+      } catch (err) {
+        // Handle Error Here
+        console.error(err);
+        this.setLoadingStatus(false);
+      }
     },
   },
   data() {
@@ -85,8 +101,13 @@ export default {
       chosenAvatar: '',
     };
   },
+  watch: {
+    userInfo() {
+      this.chosenAvatar = this.userInfo.avatar;
+    },
+  },
   mounted() {
-    this.chosenAvatar = this.userInfo.avatar;
+    this.setLoadingStatus(false);
   },
 };
 </script>

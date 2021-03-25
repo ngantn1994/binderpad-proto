@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <router-view v-if="isAuthenticationChecked"/>
-    <div v-else class="loading">
+    <router-view/>
+    <div v-show="isLoading" class="loading">
       <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
     <div class="freepik">Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -11,11 +11,23 @@
 <script>
 export default {
   name: 'App',
-  components: {
+  methods: {
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
   },
-  async beforeCreate() {
+  computed: {
+    isLoading() {
+      return this.$store.getters.isLoading;
+    },
+  },
+  async created() {
+    this.setLoadingStatus(true);
+
     await this.$store.dispatch('auth/checkAuthentication');
-    this.isAuthenticationChecked = true;
 
     const authenticationStatus = this.$store.getters['auth/authenticated'];
     if (!authenticationStatus) {
@@ -25,11 +37,8 @@ export default {
         });
       }
     }
-  },
-  data() {
-    return {
-      isAuthenticationChecked: false,
-    };
+
+    this.setLoadingStatus(false);
   },
 };
 </script>
@@ -49,12 +58,14 @@ export default {
 .loading {
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 99999;
 }
 /* CSS loader by loading.io */
 .lds-ellipsis {

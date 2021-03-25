@@ -15,7 +15,7 @@
         contenteditable="true"></div>
     </div>
     <div class="form-item-box-last">
-      <div class="form-submit" @click="updateProfile()">Create Binder</div>
+      <div class="form-submit">Create Binder (does not work for now)</div>
     </div>
   </div>
 </template>

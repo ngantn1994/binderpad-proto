@@ -21,4 +21,7 @@ class Post extends Model
         'image',
         'content',
     ];
+
+    // the flag for info_flag
+    const INFO_FLAG_DELETED = 0x99;
 }

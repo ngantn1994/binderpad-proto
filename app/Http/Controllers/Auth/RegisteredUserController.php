@@ -50,6 +50,7 @@ class RegisteredUserController extends Controller {
         $userInfo = UserInfo::make([
             'user_id' => $user->id,
             'display_name' => $user->name,
+            'desc' => 'Hello!',
         ]);
         $userInfo->setRandomDefaultAvatar();
         return $userInfo;

@@ -25,6 +25,14 @@ export default {
   components: {
     SiteHeader,
   },
+  methods: {
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
+  },
 };
 </script>
 
@@ -119,6 +127,7 @@ export default {
 .form-item-input-area {
   height: 100px;
   padding: 5px;
+  overflow: auto;
 }
 .form-submit {
   width: 100%;

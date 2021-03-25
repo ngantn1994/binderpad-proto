@@ -26,7 +26,14 @@ import axios from 'axios';
 export default {
   name: 'CreatePost',
   methods: {
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
     async createNewPost() {
+      this.setLoadingStatus(true);
       const title = document.getElementById('post-title').innerText;
       const content = document.getElementById('post-content').innerText;
 
@@ -34,7 +41,16 @@ export default {
         title,
         content,
       };
-      await axios.post('/api/createNewPost', post);
+      try {
+        await axios.post('/api/createNewPost', post);
+        this.$router.push({
+          name: 'Profile',
+        });
+      } catch (err) {
+        // Handle Error Here
+        console.error(err);
+        this.setLoadingStatus(false);
+      }
     },
   },
 };

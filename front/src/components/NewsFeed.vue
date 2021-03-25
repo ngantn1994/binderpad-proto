@@ -25,15 +25,24 @@ export default {
     };
   },
   methods: {
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
     async updatePostList() {
       try {
+        this.setLoadingStatus(true);
         const getAllPostData = await axios.get('/api/getAllPost');
 
         this.postList = getAllPostData.data.postList;
         this.postList.sort((a, b) => ((a.id > b.id) ? -1 : 1));
+        this.setLoadingStatus(false);
       } catch (err) {
         // Handle Error Here
         console.error(err);
+        this.setLoadingStatus(false);
       }
     },
   },
@@ -53,6 +62,7 @@ export default {
   padding-top: 50px;
 }
 .public-post {
-  margin: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>
