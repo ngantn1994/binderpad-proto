@@ -151,7 +151,6 @@ export default {
   },
   mounted() {
     this.applyPostReaction();
-    console.log(this.reactionList);
   },
   data() {
     return {
