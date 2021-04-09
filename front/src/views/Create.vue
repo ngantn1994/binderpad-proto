@@ -5,15 +5,15 @@
       <div class="create-wrapper">
         <router-link class="create-card" :to="{name: 'PostCreation'}">
           <img class="create-icon" src="../assets/icons/add-post.png"/>
-          <div class="create-title">Create new post</div>
+          <div class="create-title hide-on-mobile">Create new post</div>
         </router-link>
         <router-link class="create-card" :to="{name: 'BinderCreation'}">
           <img class="create-icon" src="../assets/icons/add-binder.png"/>
-            <div class="create-title">Create new binder</div>
+            <div class="create-title hide-on-mobile">Create new binder</div>
         </router-link>
         <div class="create-card">
           <img class="create-icon" src="../assets/icons/link-binders.png"/>
-          <div class="create-title">Attach to binder</div>
+          <div class="create-title hide-on-mobile">Attach to binder</div>
         </div>
       </div>
       <div class="create-form-box">
@@ -50,28 +50,32 @@ export default {
   background-color: #e2e8f0;
 }
 .create-wrapper {
-  width: 720px;
+  width: 100%;
+  max-width: 720px;
   margin: auto;
+  position: relative;
 }
 .create-card {
   background-color: #fff;
-  padding: 10px;
   box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
     0px 1px 3px 0px rgb(0 0 0 / 12%);
-  width: 200px;
+  width: calc(33% - 10px);
+  max-width: 200px;
   color: #33b4d7;
   cursor: pointer;
   display: inline-block;
-  margin: 10px;
+  margin: 5px;
   border-bottom: 2px solid transparent;
   text-decoration: none;
+  position: relative;
 }
 .create-card:hover {
   background-color: #33b4d7;
   color: #FFF;
 }
 .create-icon {
-  width: 100px;
+  width: calc(100% - 20px);
+  max-width: 100px;
   margin: auto;
 }
 .create-title {
@@ -81,7 +85,8 @@ export default {
   text-transform: uppercase;
 }
 .create-form-box {
-  width: 660px;
+  width: calc(100% - 50px);
+  max-width: 660px;
   background-color: #fff;
   padding: 20px;
   box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
@@ -91,6 +96,22 @@ export default {
 }
 .router-link-active {
   border-color: #33b4d7;
+}
+.hide-on-mobile {
+  display: none;
+}
+@media only screen and (min-width: 620px) {
+  .hide-on-mobile {
+    display: block;
+  }
+  .create-card {
+    padding: 10px;
+    margin: 10px;
+    width: calc(33% - 40px);
+  }
+  .create-form-box {
+    width: calc(100% - 60px);
+  }
 }
 </style>
 

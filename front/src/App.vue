@@ -64,7 +64,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.9);
   z-index: 99999;
 }
 /* CSS loader by loading.io */
@@ -127,7 +127,7 @@ export default {
   display: none;
 }
 .page-container {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   position: absolute;
   top: 0px;

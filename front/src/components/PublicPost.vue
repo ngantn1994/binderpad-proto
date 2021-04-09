@@ -1,6 +1,6 @@
 <template>
   <div class="public-post-wrapper">
-    <div class="post-owner-box">
+    <div class="post-owner-box" @click="toUserPage()">
       <div class="owner-avatar">
         <img class="avatar-tiny" :src="`${getDefaultAvatarPath}/${post.owner.avatar}`"/>
       </div>
@@ -78,6 +78,17 @@ export default {
     },
   },
   methods: {
+    toUserPage() {
+      if (!this.$route.path.includes('/profile')) {
+        this.setLoadingStatus(true);
+        this.$router.push({
+          name: 'UserProfile',
+          params: {
+            id: this.post.owner_id,
+          },
+        });
+      }
+    },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },
@@ -179,6 +190,7 @@ export default {
   width: 100%;
   padding-bottom: 10px;
   border-bottom: 1px solid #33b4d7;
+  cursor: pointer;
 }
 .owner-avatar {
   float: left;

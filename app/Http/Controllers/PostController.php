@@ -99,6 +99,23 @@ class PostController extends Controller
         ]);
     }
 
+    public function getByUserId(Request $request) {
+        $userId = $request->userId;
+        Log::debug($userId);
+        $userInfo = UserInfo::where('user_id', $userId)->first();
+        $userInfo->desc = nl2br($userInfo->desc);
+        $postList = Post::where([
+                        ['owner_id', '=', $userId],
+                        ['info_flag', '<' , Post::INFO_FLAG_DELETED],
+                    ])
+                    ->get();
+
+        return response()->json([
+            'userInfo' => $userInfo,
+            'postList' => PostController::getRequiredPostInfo($postList),
+        ]);
+    }
+
     public function deletePost(Request $request) {
         $userId = Auth::user()->id;
         $post = Post::where('id', $request->id)

@@ -1,9 +1,13 @@
 <template>
   <div class="site-header">
-    <img class="site-logo" src="../assets/logo_white.png" @click="toHomePage()"/>
+    <picture>
+      <source srcset="../assets/logo_white_small.png" media="(max-width: 400px)">
+      <source srcset="../assets/logo_white.png">
+      <img class="site-logo" src="../assets/logo_white.png" @click="toHomePage()"/>
+    </picture>
     <div class="header-nav-box" @click="toCreatePage()">
       <img class="nav-icon" src="../assets/icons/add.png"/>
-      <div class="nav-title">
+      <div class="nav-title hide-on-mobile">
         Create
       </div>
     </div>
@@ -72,7 +76,7 @@ export default {
       }
     },
     toSettingsPage() {
-      if (this.$route.path !== '/settings/profile') {
+      if (this.$route.path.includes('/settings')) {
         this.setLoadingStatus(true);
         this.$router.push({
           name: 'ProfileSettings',
@@ -80,7 +84,7 @@ export default {
       }
     },
     toCreatePage() {
-      if (this.$route.path !== '/create/post') {
+      if (!this.$route.path.includes('/create')) {
         this.setLoadingStatus(true);
         this.$router.push({
           name: 'PostCreation',
@@ -121,7 +125,7 @@ export default {
   height: 50px;
   width: fit-content;
   float: left;
-  margin-left: 20px;
+  margin-left: 0px;
   line-height: 30px;
   cursor: pointer;
   display: flex;
@@ -170,7 +174,7 @@ export default {
 }
 .menu-wrapper {
   z-index: 9999;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: absolute;
   top: 0px;
@@ -222,5 +226,16 @@ export default {
 }
 .show {
   display: block;
+}
+.hide-on-mobile {
+  display: none;
+}
+@media only screen and (min-width: 600px) {
+  .hide-on-mobile {
+    display: block;
+  }
+  .header-nav-box {
+    margin-left: 20px;
+  }
 }
 </style>

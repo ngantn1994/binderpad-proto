@@ -41,13 +41,14 @@ export default {
   background-color: #e2e8f0;
 }
 .settings-nav {
-  position: absolute;
-  top: 70px;
-  left: 20px;
+  position: relative;
+  margin: auto;
+  margin-top: 70px;
+  width: calc(100% - 60px);
+  height: fit-content;
   background-color: #fff;
   box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%),
     0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
-  width: 200px;
 }
 .settings-nav-item {
   width: 100%;
@@ -73,15 +74,31 @@ export default {
   font-weight: bold;
 }
 .settings-box {
-  position: absolute;
-  top: 70px;
-  right: 20px;
-  width: calc(100% - 260px);
+  position: relative;
+  margin: auto;
+  margin-top: 20px;
+  width: calc(100% - 60px);
   background-color: #fff;
   box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%),
     0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
   box-sizing: border-box;
   padding: 20px;
+}
+@media only screen and (min-width: 600px) {
+  .settings-nav {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    width: 200px;
+    margin-top: 0px;
+  }
+  .settings-box {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: calc(100% - 260px);
+    margin-top: 0px;
+  }
 }
 </style>
 

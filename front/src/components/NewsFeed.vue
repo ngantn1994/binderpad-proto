@@ -57,12 +57,16 @@ export default {
   background-color: #e2e8f0;
 }
 .posts-container {
-  width: 900px;
+  width: calc(100% - 40px);
+  max-width: 900px;
   margin: auto;
   padding-top: 50px;
 }
 .public-post {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+@media only screen and (min-width: 600px) {
+/** for responsive content */
 }
 </style>

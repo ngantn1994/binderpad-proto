@@ -29,10 +29,16 @@ import SiteHeader from '@/components/SiteHeader.vue';
 import PublicPost from '@/components/PublicPost.vue';
 
 export default {
-  name: 'ProfilePage',
+  name: 'UserPage',
   components: {
     SiteHeader,
     PublicPost,
+  },
+  props: {
+    id: {
+      type: [Number, String],
+      required: true,
+    },
   },
   methods: {
     setLoadingStatus(value) {
@@ -44,9 +50,15 @@ export default {
     async updatePostList() {
       try {
         this.setLoadingStatus(true);
-        const getAllPostData = await axios.get('/api/getMyPost');
+        const info = {
+          params: {
+            userId: this.id,
+          },
+        };
+        const getUserData = await axios.get('/api/getUserPost', info);
 
-        this.postList = getAllPostData.data.postList;
+        this.postList = getUserData.data.postList;
+        this.userInfo = getUserData.data.userInfo;
         this.postList.sort((a, b) => ((a.id > b.id) ? -1 : 1));
         this.setLoadingStatus(false);
       } catch (err) {
@@ -60,13 +72,11 @@ export default {
     getDefaultAvatarPath() {
       return `${process.env.VUE_APP_PUBLIC_URL}/default_avatar`;
     },
-    userInfo() {
-      return this.$store.getters['auth/user'];
-    },
   },
   data() {
     return {
       postList: [],
+      userInfo: {},
     };
   },
   mounted() {

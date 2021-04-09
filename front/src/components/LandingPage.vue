@@ -2,7 +2,7 @@
   <div class="landing-page-wrapper">
     <div class="landing-page">
       <div class="logo-container">
-        <img src="../assets/logo.png"/>
+        <img class="logo-img" src="../assets/logo.png"/>
       </div>
       <div class="page-description">
         Save your stories. Share them with people. Discover great things.
@@ -162,13 +162,19 @@ export default {
 .logo-container {
   width: fit-content;
   height: fit-content;
+  max-width: calc(100% - 20px);
+  position: relative;
+}
+.logo-img {
+  max-width: 100%;
 }
 .page-description {
   padding: 10px;
   font-weight: bold;
 }
 .login-wrapper {
-  width: 400px;
+  width: calc(100% - 20px);
+  max-width: 400px;
   height: 500px;
   position: relative;
 }
@@ -180,8 +186,8 @@ export default {
   transition: 500ms opacity ease-in-out;
   overflow: hidden;
   height: fit-content;
-  width: 400px;
-  max-width: 100%;
+  width: calc(100% - 40px);
+  max-width: 400px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -240,5 +246,8 @@ export default {
   font-weight: bold;
   text-align: center;
   margin-top: 10px;
+}
+@media only screen and (min-width: 600px) {
+/** for responsive content */
 }
 </style>
