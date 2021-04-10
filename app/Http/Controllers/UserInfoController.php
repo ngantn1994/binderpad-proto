@@ -39,4 +39,19 @@ class UserInfoController extends Controller
             'userInfo' => $userInfo
         ]);
     }
+
+    public function getById(Request $request) {
+        $userInfo = UserInfo::where('user_id', $request->userId)->first();
+        if ($userInfo) {
+            $userInfo->desc = nl2br($userInfo->desc);
+
+            return response()->json([
+                'userInfo' => $userInfo
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'not found'
+            ]);
+        }
+    }
 }

@@ -15,14 +15,44 @@
         contenteditable="true"></div>
     </div>
     <div class="form-item-box-last">
-      <div class="form-submit">Create Binder (does not work for now)</div>
+      <div class="form-submit" @click="createNewBinder()">Create Binder</div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'CreateBinder',
+  methods: {
+    setLoadingStatus(value) {
+      this.$store.dispatch({
+        type: 'setLoadingStatus',
+        value,
+      });
+    },
+    async createNewBinder() {
+      this.setLoadingStatus(true);
+      const title = document.getElementById('binder-title').innerText;
+      const desc = document.getElementById('binder-desc').innerText;
+
+      const post = {
+        title,
+        desc,
+      };
+      try {
+        await axios.post('/api/createNewBinder', post);
+        this.$router.push({
+          name: 'Profile',
+        });
+      } catch (err) {
+        // Handle Error Here
+        console.error(err);
+        this.setLoadingStatus(false);
+      }
+    },
+  },
 };
 </script>
 

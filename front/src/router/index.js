@@ -32,11 +32,35 @@ const routes = [
     name: 'UserProfile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
     props: true,
+    children: [
+      {
+        path: '',
+        name: 'UserPosts',
+        component: () => import(/* webpackChunkName: "profileposts" */ '../components/parts/PostFlow.vue'),
+      },
+      {
+        path: 'binders',
+        name: 'UserBinders',
+        component: () => import(/* webpackChunkName: "profilebinders" */ '../components/parts/BinderFlow.vue'),
+      },
+    ],
   },
   {
     path: '/profile',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
+    children: [
+      {
+        path: '',
+        name: 'ProfilePosts',
+        component: () => import(/* webpackChunkName: "profileposts" */ '../components/parts/PostFlow.vue'),
+      },
+      {
+        path: 'binders',
+        name: 'ProfileBinders',
+        component: () => import(/* webpackChunkName: "profilebinders" */ '../components/parts/BinderFlow.vue'),
+      },
+    ],
   },
   {
     path: '/create',

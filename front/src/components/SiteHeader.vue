@@ -71,7 +71,7 @@ export default {
       if (this.$route.path !== '/profile') {
         this.setLoadingStatus(true);
         this.$router.push({
-          name: 'Profile',
+          name: 'ProfilePosts',
         });
       }
     },

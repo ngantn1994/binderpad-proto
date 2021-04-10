@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <div v-if="userInfo">
-      <UserPage v-if="id && idq != userInfo.id" :id="id"/>
+      <UserPage v-if="id && id != userInfo.id" :id="id"/>
       <ProfilePage v-else/>
     </div>
   </div>
@@ -27,11 +27,6 @@ export default {
     userInfo() {
       return this.$store.getters['auth/user'];
     },
-  },
-  mounted() {
-    console.log(1);
-    console.log(this.id);
-    console.log(2);
   },
 };
 </script>
