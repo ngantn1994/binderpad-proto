@@ -38,5 +38,8 @@ Route::middleware('auth:sanctum')->get('/getMyPost', [PostController::class, 'ge
 Route::middleware('auth:sanctum')->get('/getUserPost', [PostController::class, 'getByUserId']);
 Route::middleware('auth:sanctum')->post('/deletePost', [PostController::class, 'deletePost']);
 
+Route::middleware('auth:sanctum')->get('/getMyBinder', [BinderController::class, 'getCurrentUser']);
+Route::middleware('auth:sanctum')->get('/getUserBinder', [BinderController::class, 'getByUserId']);
+
 Route::middleware('auth:sanctum')->post('/reactToPost', [ReactionController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/getPostReaction', [ReactionController::class, 'get']);

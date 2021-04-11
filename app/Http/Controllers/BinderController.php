@@ -25,4 +25,30 @@ class BinderController extends Controller
             'status' => 'updated',
         ]);
     }
+
+    public function getCurrentUser(Request $request) {
+        $userId = Auth::user()->id;
+        $binderList = Binder::where([
+                        ['owner_id', '=', $userId],
+                        ['info_flag', '<' , Binder::INFO_FLAG_DELETED],
+                    ])
+                    ->get();
+
+        return response()->json([
+            'binderList' => $binderList,
+        ]);
+    }
+
+    public function getByUserId(Request $request) {
+        $userId = $request->userId;
+        $binderList = Binder::where([
+                        ['owner_id', '=', $userId],
+                        ['info_flag', '<' , Binder::INFO_FLAG_DELETED],
+                    ])
+                    ->get();
+
+        return response()->json([
+            'binderList' => $binderList,
+        ]);
+    }
 }

@@ -44,7 +44,7 @@ export default {
       try {
         await axios.post('/api/createNewPost', post);
         this.$router.push({
-          name: 'Profile',
+          name: 'ProfilePosts',
         });
       } catch (err) {
         // Handle Error Here

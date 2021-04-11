@@ -44,7 +44,7 @@ export default {
       try {
         await axios.post('/api/createNewBinder', post);
         this.$router.push({
-          name: 'Profile',
+          name: 'ProfileBinders',
         });
       } catch (err) {
         // Handle Error Here

@@ -79,10 +79,10 @@ export default {
   },
   methods: {
     toUserPage() {
-      if (!this.$route.path.includes('/profile')) {
+      if (!this.$route.path.includes('/userprofile')) {
         this.setLoadingStatus(true);
         this.$router.push({
-          name: 'UserProfile',
+          name: 'UserPosts',
           params: {
             id: this.post.owner_id,
           },

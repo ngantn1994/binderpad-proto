@@ -6,7 +6,7 @@
         <UserInfo :userInfo="userInfo"/>
       </div>
       <FlowNav :navList="navList"/>
-      <router-view class="settings-box" :id="id"></router-view>
+      <router-view class="flow-container" :id="id"></router-view>
     </div>
   </div>
 </template>
@@ -80,5 +80,11 @@ export default {
 <style scoped>
 .profile-page {
   background-color: #e2e8f0;
+}
+.flow-container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  position: relative;
 }
 </style>
