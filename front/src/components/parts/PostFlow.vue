@@ -4,7 +4,7 @@
       <PublicPost v-for="(post, index) in postList"
         class="public-post" :key="index" :post="post"/>
     </div>
-    <div class="posts-container" v-else>No post found.</div>
+    <div class="post-empty" v-else>No post found.</div>
   </div>
 </template>
 
@@ -95,6 +95,9 @@ export default {
 }
 .hide-on-mobile {
   display: none;
+}
+.post-empty {
+  color: #b3b3b3;
 }
 @media only screen and (min-width: 900px) {
   .hide-on-mobile {

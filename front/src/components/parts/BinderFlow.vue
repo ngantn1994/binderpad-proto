@@ -4,7 +4,7 @@
       <PublicBinder v-for="(binder, index) in binderList"
         class="public-binder" :key="index" :binder="binder"/>
     </div>
-    <div class="binders-container" v-else>No binder found.</div>
+    <div class="binders-empty" v-else>No binder found.</div>
   </div>
 </template>
 
@@ -85,5 +85,8 @@ export default {
 }
 .public-binder {
   margin-bottom: 10px;
+}
+.binders-empty {
+  color: #b3b3b3;
 }
 </style>

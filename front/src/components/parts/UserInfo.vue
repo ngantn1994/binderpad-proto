@@ -1,5 +1,5 @@
 <template>
-  <div class="user-info">
+  <div v-if="userInfo" class="user-info">
     <div class="avatar-box">
       <div class="avatar-icon">
         <img class="avatar-big" :src="`${getDefaultAvatarPath}/${userInfo.avatar}`"/>

@@ -2,9 +2,7 @@
   <div class="page-container profile-page">
     <SiteHeader/>
     <div class="relative-content-box">
-      <div v-if="userInfo">
-        <UserInfo :userInfo="userInfo"/>
-      </div>
+      <UserInfo v-if="userInfo" :userInfo="userInfo"/>
       <FlowNav :navList="navList"/>
       <router-view class="flow-container"></router-view>
     </div>

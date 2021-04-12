@@ -35,7 +35,7 @@ class BinderController extends Controller
                     ->get();
 
         return response()->json([
-            'binderList' => $binderList,
+            'binderList' => BinderController::getRequiredBinderInfo($binderList),
         ]);
     }
 
@@ -48,7 +48,16 @@ class BinderController extends Controller
                     ->get();
 
         return response()->json([
-            'binderList' => $binderList,
+            'binderList' => BinderController::getRequiredBinderInfo($binderList),
         ]);
+    }
+
+    public static function getRequiredBinderInfo($binderList) {
+
+        foreach ($binderList as $binder) {
+            $binder->desc = nl2br($binder->desc);
+        }
+
+        return $binderList;
     }
 }
