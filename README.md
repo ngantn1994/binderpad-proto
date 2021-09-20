@@ -6,14 +6,15 @@ and this was my first Laravel project at the time so the code is messy & no test
 
 Took it down for now, and will come back with a better implementation later.
 
-A glance of what it had:
+## A glance at what it provided
 
 ### Register (with basic authentication)
 ![image](https://user-images.githubusercontent.com/16540751/134032723-7ba820e9-4a1c-4969-8794-c80c12a89866.png)
 
 
 ### User newfeed
-![image](https://user-images.githubusercontent.com/16540751/134032316-4947e80b-4d74-477f-94ee-c69b7ef34544.png)
+![image](https://user-images.githubusercontent.com/16540751/134033175-bdf50561-0663-4bc2-a723-de866e790ff6.png)
+
 
 ### User profile
 ![image](https://user-images.githubusercontent.com/16540751/134032486-bf063e8a-557c-4ab1-99c5-c357054d6705.png)
